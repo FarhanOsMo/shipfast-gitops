@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipfast
+  namespace: shipfast
+spec:
+  type: ClusterIP
+  selector:
+    app: shipfast
+  ports:
+    - port: 5000
+      targetPort: 5000

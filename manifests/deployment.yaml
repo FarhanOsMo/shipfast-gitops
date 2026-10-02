@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipfast
+  namespace: shipfast
+  labels:
+    app: shipfast
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shipfast
+  template:
+    metadata:
+      labels:
+        app: shipfast
+    spec:
+      containers:
+        - name: shipfast
+          image: farhanosmo/shipfast-status:1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: shipfast-config
+                  key: APP_ENV
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 5000
